@@ -1,9 +1,21 @@
-# Configs
-for filename in $(find "$HOME/.bash_configs" -maxdepth 1 -type f); do
-    [ -e "$filename" ] || continue
-    source $(realpath "$filename")
-done
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-# Created by `pipx` on 2023-10-23 22:15:02
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Custom alias
+alias tf='tofu'
+alias k='kubectl'
+alias dc='docker compose'
+alias pc='podman-compose'
+PS1='[\u@\h \W]\$ '
+
+# Created by `pipx` on 2024-06-20 21:05:18
 export PATH="$PATH:/home/javon/.local/bin"
+
+# pipx completion
 eval "$(register-python-argcomplete pipx)"
+
+# Fix ansible locale error
+#export LC_ALL="en_US.UTF-8"

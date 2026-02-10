@@ -1,0 +1,165 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 27, // Waybar height (to be removed for auto height)
+    "margin-bottom": 0,
+    // "width": 1280, // Waybar width
+    "spacing": 0, // Gaps between modules (4px)
+    "modules-left": [
+        //"network",
+        "temperature",
+        "cpu",
+        "memory",
+        //"niri/language",
+        "custom/stasis"
+        //"custom/sway_audio_idle_inhibitor"
+    ],
+    "modules-center": [
+        "clock#clock",
+        "clock#calendar",
+        "pulseaudio"
+        //"niri/workspaces",
+    ],
+    "modules-right": [
+	"tray",
+        "battery",
+        "battery#bat2"
+    ],
+
+    // -------
+    // Modules 
+    // -------
+    "niri/workspaces": {
+        "on-click": "activate",
+        "active-only": false,
+	"all-outputs": true,
+        "warp-on-scroll": false,
+        "format": "{icon}",
+        "format-icons": {
+            "urgent": "",
+            "active": "",
+            "default": ""
+        }
+    },
+    "pulseaudio": {
+	"scroll-step": 5,
+        //"format": "{icon}",
+        "format": "{icon}   {volume}%",
+        "format-bluetooth": "{icon} {volume}%  {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/sway_audio_idle_inhibitor": {
+	"format": "{icon}",
+	"exec": "sway-audio-idle-inhibit --dry-print-both-waybar",
+	"exec-if": "which sway-audio-idle-inhibit",
+	"return-type": "json",
+	"format-icons": {
+	    "output": "",
+	    "input": "",
+	    "output-input": "  ",
+            "none": "󰒲"
+	}
+    },
+    "custom/stasis": {
+        "exec": "stasis info --json",
+        "format": "{icon}",
+        "format-icons": {
+            "idle_active": "",
+            "idle_inhibited": "",
+            "manually_inhibited": "",
+            "not_running": "󰒲"
+        },
+        "tooltip": true,
+        "on-click": "stasis toggle-inhibit",
+        //"interval": 2,
+        "restart-interval": 2,
+        "return-type": "json"
+    },
+    "bluetooth": {
+        "format-disabled": "",
+        "format-off": "",
+        "interval": 30,
+        "on-click": "blueman-manager",
+        "format-no-controller": ""
+    },
+    "network": {
+        "format-wifi": "   {essid} ({signalStrength}%)",
+        "format-ethernet": "{ifname} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+	//"on-click": "sh ~/scripts/rofi-wifi-menu/rofi-wifi-menu.sh"
+    },
+    "cpu": {
+        "format": "  {usage}%",
+        "tooltip": true,
+	"on-click": "kitty htop"
+    },
+    "memory": {
+        "format": "  {}%",
+	"tooltip": true,
+	"on-click": "kitty htop"
+    },
+    "temperature": {
+        "interval": 10,
+        "hwmon-path": "/sys/devices/platform/nct6775.2592/hwmon/hwmon2/temp2_input",
+        "critical-threshold": 80,
+        "format-critical": " {temperatureC}",
+        "format": " {temperatureC}°C"
+    },
+    "niri/language": {
+       "format": "  {}",
+       "format-en": "EN",
+       "format-ru": "RU"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}  {capacity}%",
+        "format-full": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-alt": "{time}  {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "clock#clock": {
+        "timezone": "America/Argentina/Buenos_Aires",
+        "format": "  {:%H:%M}",
+        //"format": "{:%H:%M | } ",
+        //"format-alt": "{:%e %B}",
+        //"format-alt": "{:%Y-%m-%d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>"
+    },
+    "clock#calendar": {
+        "timezone": "America/Argentina/Buenos_Aires",
+        "format": "  {:%e %B}",
+        //"format": "{:%H:%M | } ",
+        //"format-alt": "{:%e %B}",
+        //"format-alt": "{:%Y-%m-%d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>"
+    },
+    "tray": {
+	"icon-size": 14,
+        "spacing": 12,
+        "reverse-direction": false	    
+    }
+}
