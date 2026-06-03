@@ -9,9 +9,11 @@ include "inputs.kdl"
 include "binds.kdl"
 
 // -------------
-// Layout config
+// Layout and layer config
 // -------------
 layout {
+    background-color "transparent"
+
     gaps 5
 
     default-column-width { proportion 0.5; }
@@ -36,6 +38,10 @@ layout {
     }
 }
 
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
 
 // ------------------
 // Overview settings
@@ -49,14 +55,14 @@ overview {
 // -----
 prefer-no-csd   // Disable program decorations
 
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+hotkey-overlay { skip-at-startup; }
+
 debug {
     // Allows notification actions and window activation from Noctalia.
     honor-xdg-activation-with-invalid-serial
 }
-
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
-
-hotkey-overlay { skip-at-startup; }
 
 environment {
     //DISPLAY ":1"
