@@ -1,14 +1,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-
-# Custom alias
-alias tf='tofu'
-alias k='kubectl'
-alias dc='docker compose'
-alias pc='podman-compose'
 PS1='[\u@\h \W]\$ '
 
 # Created by `pipx` on 2024-06-20 21:05:18
@@ -19,3 +11,18 @@ eval "$(register-python-argcomplete pipx)"
 
 # Fix ansible locale error
 #export LC_ALL="en_US.UTF-8"
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias tf='tofu'
+alias k='kubectl'
+alias dc='docker compose'
+alias pc='podman-compose'
+
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    [ -f "$tmp" ] && command rm -f -- "$tmp"
+}
