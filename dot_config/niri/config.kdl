@@ -1,37 +1,18 @@
-// -------
 // Startup
 // -------
-spawn-at-startup "waybar"
-spawn-at-startup "swww-daemon"
-spawn-at-startup "stasis"
-//spawn-at-startup "swayidle -w"
-//spawn-sh-at-startup "sway-audio-idle-inhibit"
-spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &" // Polkit
+spawn-at-startup "qs" "-c" "noctalia-shell"
 
-
-// -----------
-// Input rules 
-// -----------
-input {
-    keyboard {
-        xkb {}
-        numlock
-    }
-
-    touchpad {
-        tap
-        natural-scroll
-    }
-
-    workspace-auto-back-and-forth
-}
-
+// Includes
+// -----
+include "window-rules.kdl"
+include "inputs.kdl"
+include "binds.kdl"
 
 // -------------
 // Layout config
 // -------------
 layout {
-    gaps 10
+    gaps 5
 
     default-column-width { proportion 0.5; }
     center-focused-column "never"
@@ -44,13 +25,14 @@ layout {
     // preset-window-heights { }
 
     focus-ring {
-        width 4
+        width 2
         active-color "#7fc8ff"
         inactive-color "#505050"
     }
     tab-indicator {
         active-color "#C8FF7F"
         inactive-color "#7FC8FF"
+        place-within-column
     }
 }
 
@@ -61,180 +43,16 @@ layout {
 overview {
     workspace-shadow { off; }
 }
-// ------------
-// Window rules 
-// ------------
-// Work around WezTerm's initial configure bug
-// by setting an empty default-column-width.
-//window-rule {
-//    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-//    default-column-width {}
-//}
-
-
-// block out two password managers from screen capture.
-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
-
-    block-out-from "screen-capture"
-}
-
-// 70% windows
-window-rule {
-    match app-id=r#"^zen$"# title="^Zen Browser$"
-    match app-id=r#"^steam$"# title="^Steam$"
-
-    default-column-width { proportion 0.66667; }
-}
-
-// 100% windows
-window-rule {
-    match app-id=r#"^com.stremio.stremio$"# title="^Stremio"
-
-    default-column-width { proportion 1.0; }
-}
-
-// Floating Windows
-window-rule {
-    match app-id=r#"^org\.kde\.kalk$"# title="^Kalk"
-    match title="^Unlock Database - KeePassXC$"
-
-    open-floating true
-}
-
-// pavucontrol window
-window-rule {
-    match app-id="org.pulseaudio.pavucontrol" title=r#"^Volume Control$"#
-
-    default-column-width { fixed 500; }
-    default-window-height { fixed 500; }
-    focus-ring { width 1; }
-    open-floating true
-    default-floating-position x=10 y=10 relative-to="top-right"
-}
-
-// Steam notification popup
-window-rule {
-    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
-
-    open-focused false
-    default-floating-position x=10 y=10 relative-to="bottom-right"
-}
-
-
-// -----------
-// Binds rules
-// -----------
-binds {
-    // -- Applications shortcuts
-    Mod+D 	hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+T 	hotkey-overlay-title="Open a Terminal: kitty"     { spawn "kitty"; }
-    Mod+Alt+T 	hotkey-overlay-title="Open configurations"        { spawn-sh "kitty sh -c \"~/.config/niri/scripts/configs_menu.sh\""; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock"  { spawn "swaylock"; }
-
-    Mod+E	{ spawn "nautilus"; }
-    Mod+B 	{ spawn "zen-browser"; }
-    Mod+Shift+E { spawn "wlogout"; }
-
-    // -- Overlay
-    Mod+O repeat=false { toggle-overview; }
-
-    // -- Focus
-    Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-
-    // -- Volume control
-    Mod+Alt+Prior	 allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1"; }
-    Mod+Alt+Next	 allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-
-    // -- Brightness control
-    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
-
-    // -- Close windows
-    Mod+Q  repeat=false { close-window; }
-    ALT+F4 repeat=false { close-window; }
-
-    // -- Window Movement and Focus
-    Mod+Left             { focus-column-left; }
-    Mod+Down             { focus-window-down; }
-    Mod+Up               { focus-window-up; }
-    Mod+Right            { focus-column-right; }
-
-    Mod+Ctrl+Left        { move-column-left; }
-    Mod+Ctrl+Down        { move-window-down; }
-    Mod+Ctrl+Up          { move-window-up; }
-    Mod+Ctrl+Right       { move-column-right; }
-
-    Mod+Home             { focus-column-first; }
-    Mod+End              { focus-column-last; }
-    Mod+Ctrl+Home        { move-column-to-first; }
-    Mod+Ctrl+End         { move-column-to-last; }
-
-    Mod+Shift+Left       { focus-monitor-left; }
-    Mod+Shift+Down       { focus-monitor-down; }
-    Mod+Shift+Up         { focus-monitor-up; }
-    Mod+Shift+Right      { focus-monitor-right; }
-
-    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-
-    Mod+Page_Down        { focus-workspace-down; }
-    Mod+Page_Up          { focus-workspace-up; }
-    Mod+Ctrl+Page_Down   { move-column-to-workspace-down; }
-    Mod+Ctrl+Page_Up     { move-column-to-workspace-up; }
-
-    Mod+Shift+Page_Down  { move-workspace-down; }
-    Mod+Shift+Page_Up    { move-workspace-up; }
-
-    //Mod+Tab              { focus-workspace-previous; }
-
-    Mod+BracketLeft      { consume-or-expel-window-left; }
-    Mod+BracketRight     { consume-or-expel-window-right; }
-
-    Mod+Comma            { consume-window-into-column; }
-    Mod+Period           { expel-window-from-column; }
-
-    Mod+R                { switch-preset-column-width; }
-    Mod+Shift+R          { switch-preset-window-height; }
-    Mod+Ctrl+R           { reset-window-height; }
-
-    Mod+C                { center-column; }
-    Mod+Ctrl+C           { center-visible-columns; } // Center all fully visible columns on screen.
-    
-    Mod+W                { toggle-column-tabbed-display; }
-
-    // -- Window size
-    Mod+F                 { maximize-column; }
-    Mod+Shift+F           { fullscreen-window; }
-
-    Mod+KP_Subtract       { set-column-width "-10%"; }
-    Mod+KP_Add            { set-column-width "+10%"; }
-
-    Mod+Shift+KP_Subtract { set-window-height "-10%"; }
-    Mod+Shift+KP_Add      { set-window-height "+10%"; }
-
-    // -- Screenshot
-    Print      { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print  { screenshot-window; }
-
-    // -- Emergency scape key when a fullscreen app blocks your keybinds.
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-}
-
 
 // -----
 // Other
 // -----
 prefer-no-csd   // Disable program decorations
+
+debug {
+    // Allows notification actions and window activation from Noctalia.
+    honor-xdg-activation-with-invalid-serial
+}
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
@@ -244,8 +62,8 @@ environment {
     //DISPLAY ":1"
     ELECTRON_OZONE_PLATFORM_HINT "auto" // Electron fix
     QT_QPA_PLATFORM "wayland"
-    QT_QPA_PLATFORMTHEME "gtk3"
-    QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+    //QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
     QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
     XDG_SESSION_TYPE "wayland"
     XDG_CURRENT_DESKTOP "niri"

@@ -43,5 +43,5 @@ nmap <leader>wn <c-w>W
 nmap <leader>wp <c-w>w
 " Tabs
 nmap <leader>te :tabedit<Space>
-nmap <leader>tn :tabnext
-nmap <leader>tp :tabprevious
+nmap <leader>tn :tabnext<enter>
+nmap <leader>tp :tabprevious<enter>

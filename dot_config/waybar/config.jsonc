@@ -12,8 +12,10 @@
         "cpu",
         "memory",
         //"niri/language",
-        "custom/stasis"
+        //"custom/stasis",
         //"custom/sway_audio_idle_inhibitor"
+        "ext/workspaces"
+        //"dwl/window"
     ],
     "modules-center": [
         "clock#clock",
@@ -41,6 +43,16 @@
             "active": "",
             "default": ""
         }
+    },
+    "ext/workspaces": {
+        "format": "{icon}",
+        "ignore-hidden": true,
+        "on-click": "activate",
+        "on-click-right": "deactivate",
+        "sort-by-id": true
+    },
+        "dwl/window": {
+        "format": "[{layout}] {title}"
     },
     "pulseaudio": {
 	"scroll-step": 5,
