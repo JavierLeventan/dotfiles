@@ -29,6 +29,9 @@ case $CHOICE in
         3)
             config_file="$HOME/.config/waybar/style.css"
             ;;
+        *)
+            exit
+            ;;
 esac
 
 vim "$config_file"

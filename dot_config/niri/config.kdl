@@ -1,6 +1,7 @@
 // Startup
 // -------
-spawn-at-startup "qs" "-c" "noctalia-shell"
+//spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia"
 
 // Includes
 // -----
@@ -14,7 +15,7 @@ include "binds.kdl"
 layout {
     background-color "transparent"
 
-    gaps 5
+    gaps 2
 
     default-column-width { proportion 0.5; }
     center-focused-column "never"
@@ -27,19 +28,23 @@ layout {
     // preset-window-heights { }
 
     focus-ring {
+        off
+    }
+    border {
         width 2
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        active-color "#87bcde"
+        inactive-color "#2d4654"
+        urgent-color "#d68581"
     }
     tab-indicator {
-        active-color "#C8FF7F"
-        inactive-color "#7FC8FF"
+        active-color "#59aa88"
+        inactive-color "#9baebc"
         place-within-column
     }
 }
 
 layer-rule {
-  match namespace="^noctalia-overview*"
+  match namespace="^noctalia-backdrop"
   place-within-backdrop true
 }
 
