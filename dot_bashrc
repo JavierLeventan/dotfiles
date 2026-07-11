@@ -18,11 +18,4 @@ alias tf='tofu'
 alias k='kubectl'
 alias dc='docker compose'
 alias pc='podman-compose'
-
-function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-    command yazi "$@" --cwd-file="$tmp"
-    IFS= read -r -d '' cwd < "$tmp"
-    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-    [ -f "$tmp" ] && command rm -f -- "$tmp"
-}
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
