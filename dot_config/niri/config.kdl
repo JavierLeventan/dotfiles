@@ -1,45 +1,18 @@
 // Startup
-// -------
 //spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "noctalia"
 
 // Includes
-// -----
+include "layout.kdl"
 include "window-rules.kdl"
 include "inputs.kdl"
 include "binds.kdl"
 
-// -------------
-// Layout and layer config
-// -------------
-layout {
-    background-color "transparent"
-
-    gaps 2
-
-    default-column-width { proportion 0.5; }
-    center-focused-column "never"
-
-    preset-column-widths {
-        proportion 0.33333
-        proportion 0.5
-        proportion 0.66667
-    }
-    // preset-window-heights { }
-
-    focus-ring {
-        off
-    }
-    border {
-        width 2
-        active-color "#87bcde"
-        inactive-color "#2d4654"
-        urgent-color "#d68581"
-    }
-    tab-indicator {
-        active-color "#59aa88"
-        inactive-color "#9baebc"
-        place-within-column
+// Other
+recent-windows {
+    highlight {
+        active-color "#4db7ff"
+        urgent-color "#fd4663"
     }
 }
 
@@ -48,16 +21,10 @@ layer-rule {
   place-within-backdrop true
 }
 
-// ------------------
-// Overview settings
-// ------------------
 overview {
     workspace-shadow { off; }
 }
 
-// -----
-// Other
-// -----
 prefer-no-csd   // Disable program decorations
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
@@ -79,4 +46,3 @@ environment {
     XDG_SESSION_TYPE "wayland"
     XDG_CURRENT_DESKTOP "niri"
 }
-
