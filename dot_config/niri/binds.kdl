@@ -94,6 +94,7 @@ binds {
 
     // -- Window size
     Mod+F                 { maximize-column; }
+    Mod+M                 { maximize-window-to-edges; }
     Mod+Shift+F           { fullscreen-window; }
 
     Mod+KP_Add            { set-column-width "+10%"; }
